@@ -1,23 +1,32 @@
-// Example of how to use Vue Router
+import { createRouter, createWebHistory } from 'vue-router';
+import ItemListPage from '../pages/ItemListPage.vue';
+import ItemDetailPage from '../pages/ItemDetailPage.vue';
+import NewItemPage from '../pages/NewItemPage.vue';
+import ProfilePage from '../pages/ProfilePage.vue';
+import { useAuthStore } from '../stores/auth';
+import { pinia } from '../stores';
 
-import { createRouter, createWebHistory } from 'vue-router'
+const base = import.meta.env.MODE === 'development' ? import.meta.env.BASE_URL : '';
 
-// 1. Define route components.
-// These can be imported from other files
-import MainPage from '../pages/MainPage.vue';
-import OtherPage from '../pages/OtherPage.vue';
-
-let base = (import.meta.env.MODE == 'development') ? import.meta.env.BASE_URL : ''
-
-// 2. Define some routes
-// Each route should map to a component.
-// We'll talk about nested routes later.
 const router = createRouter({
     history: createWebHistory(base),
     routes: [
-        { path: '/', name: 'Main Page', component: MainPage },
-        { path: '/other/', name: 'Other Page', component: OtherPage },
-    ]
-})
+        { path: '/', redirect: '/items' },
+        { path: '/items', name: 'Item List', component: ItemListPage },
+        { path: '/items/new', name: 'New Item', component: NewItemPage, meta: { requiresAuth: true } },
+        { path: '/items/:id', name: 'Item Detail', component: ItemDetailPage, props: true },
+        { path: '/profile', name: 'Profile', component: ProfilePage, meta: { requiresAuth: true } },
+    ],
+});
 
-export default router
+router.beforeEach((to) => {
+    if (to.meta.requiresAuth) {
+        const authStore = useAuthStore(pinia);
+        if (!authStore.isAuthenticated) {
+            return { path: '/items' };
+        }
+    }
+    return true;
+});
+
+export default router;

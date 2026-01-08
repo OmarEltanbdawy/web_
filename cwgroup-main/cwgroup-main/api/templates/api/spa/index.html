@@ -6,6 +6,16 @@
     <link rel="icon" type="image/svg+xml" href="/static/api/spa/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ECS639 Web Programming - Group CW Template</title>
+    <script>
+        window.__AUTH_CONTEXT__ = {
+            isAuthenticated: {{ request.user.is_authenticated|yesno:"true,false" }},
+            user: {% if request.user.is_authenticated %}{
+                id: {{ request.user.id }},
+                username: "{{ request.user.get_username|escapejs }}"
+            }{% else %}null{% endif %}
+        };
+        window.dispatchEvent(new Event('django-auth-ready'));
+    </script>
   <script type="module" crossorigin src="/static/api/spa/assets/index-DbBstqHX.js"></script>
   <link rel="stylesheet" crossorigin href="/static/api/spa/assets/index-C11chwFa.css">
 </head>

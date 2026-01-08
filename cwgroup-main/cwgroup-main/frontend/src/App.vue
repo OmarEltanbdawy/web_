@@ -1,33 +1,17 @@
 <template>
-    <main class="container pt-4">
-        <div>
-            <router-link
-                class=""
-                :to="{name: 'Main Page'}"
-            >
-                Main Page
-            </router-link>
-            |
-            <router-link
-                class=""
-                :to="{name: 'Other Page'}"
-            >
-                Other Page
-            </router-link>
-        </div>
-        <RouterView class="flex-shrink-0" />
+    <main class="container py-4">
+        <header class="d-flex flex-wrap align-items-center justify-content-between mb-4">
+            <h1 class="h4 mb-0">Auction House</h1>
+            <nav class="d-flex gap-3">
+                <RouterLink class="text-decoration-none" to="/items">Items</RouterLink>
+                <RouterLink class="text-decoration-none" to="/items/new">New Item</RouterLink>
+                <RouterLink class="text-decoration-none" to="/profile">Profile</RouterLink>
+            </nav>
+        </header>
+        <RouterView />
     </main>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
-import { RouterView } from "vue-router";
-
-export default defineComponent({
-    components: { RouterView },
-});
-
+<script lang="ts" setup>
+import { RouterLink, RouterView } from 'vue-router';
 </script>
-
-<style scoped>
-</style>
