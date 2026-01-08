@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router';
+import { createRouter, createWebHashHistory } from 'vue-router';
 import ItemListPage from '../pages/ItemListPage.vue';
 import ItemDetailPage from '../pages/ItemDetailPage.vue';
 import NewItemPage from '../pages/NewItemPage.vue';
@@ -6,10 +6,8 @@ import ProfilePage from '../pages/ProfilePage.vue';
 import { useAuthStore } from '../stores/auth';
 import { pinia } from '../stores';
 
-const base = import.meta.env.MODE === 'development' ? import.meta.env.BASE_URL : '';
-
 const router = createRouter({
-    history: createWebHistory(base),
+    history: createWebHashHistory(),
     routes: [
         { path: '/', redirect: '/items' },
         { path: '/items', name: 'Item List', component: ItemListPage },
