@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { AuthRequiredError } from '../api/client';
-import { getProfile } from '../api/auth';
+import { getProfile, updateProfile } from '../api/auth';
 import type { AuthContext, UserProfile } from '../types';
 
 export const useAuthStore = defineStore('auth', {
@@ -35,6 +35,20 @@ export const useAuthStore = defineStore('auth', {
                 }
                 this.status = 'error';
                 this.errorMessage = error instanceof Error ? error.message : 'Unable to load profile.';
+            }
+        },
+        async saveProfile(payload: FormData) {
+            this.status = 'loading';
+            this.errorMessage = null;
+            try {
+                const profile = await updateProfile(payload);
+                this.user = profile;
+                this.status = 'ready';
+                return profile;
+            } catch (error) {
+                this.status = 'error';
+                this.errorMessage = error instanceof Error ? error.message : 'Unable to update profile.';
+                return null;
             }
         },
     },
