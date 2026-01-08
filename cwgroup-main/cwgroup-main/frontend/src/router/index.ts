@@ -21,7 +21,9 @@ router.beforeEach((to) => {
     if (to.meta.requiresAuth) {
         const authStore = useAuthStore(pinia);
         if (!authStore.isAuthenticated) {
-            return { path: '/items' };
+            const nextPath = `/#${to.fullPath}`;
+            window.location.assign(`/accounts/login/?next=${encodeURIComponent(nextPath)}`);
+            return false;
         }
     }
     return true;
