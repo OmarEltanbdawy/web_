@@ -2,6 +2,29 @@
 
 This template should be used as the starting point for your group coursework in the module ECS639U Web Programming (at Queen Mary University of London). Use Git (github.qmul.ac.uk) to collaborate on the coursework with your group members. Module leader: Paulo Oliva <[p.oliva@qmul.ac.uk](mailto:p.oliva@qmul.ac.uk)>
 
+## Submission details
+
+- **Deployed URL:** <ADD_DEPLOYED_URL_HERE>
+
+### Admin credentials
+
+- **Username:** admin
+- **Password:** AdminPass123!
+
+### Test user credentials
+
+Run the sample data command below to create the test users.
+
+- **Usernames:** testuser1, testuser2, testuser3, testuser4, testuser5
+- **Password:** TestUser123!
+
+### Group member contributions
+
+- **Member 1:** <ADD_NAME> — <ADD_CONTRIBUTION>
+- **Member 2:** <ADD_NAME> — <ADD_CONTRIBUTION>
+- **Member 3:** <ADD_NAME> — <ADD_CONTRIBUTION>
+- **Member 4:** <ADD_NAME> — <ADD_CONTRIBUTION>
+
 ## Local development
 
 To run this project in your development machine, follow these steps:
@@ -22,25 +45,31 @@ To run this project in your development machine, follow these steps:
     $ python manage.py migrate
     ```
 
-5. Install JavaScript dependencies (from 'frontend' folder):
+5. Seed sample data (admin, test users, and items):
+
+    ```console
+    $ python manage.py seed_sample_data
+    ```
+
+6. Install JavaScript dependencies (from 'frontend' folder):
 
     ```console
     $ npm install
     ```
 
-6. If everything is alright, you should be able to start the Django development server from the main folder:
+7. If everything is alright, you should be able to start the Django development server from the main folder:
 
     ```console
     $ python manage.py runserver
     ```
 
-7. and the Vue server from the 'frontend' sub-folder:
+8. and the Vue server from the 'frontend' sub-folder:
 
     ```console
     $ npm run dev
     ```
 
-8. Open your browser and go to http://localhost:5173, you will be greeted with a template page.
+9. Open your browser and go to http://localhost:5173, you will be greeted with a template page.
 
 ## OpenShift deployment
 
