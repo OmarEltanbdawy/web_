@@ -22,7 +22,7 @@ export async function fetchJson<T>(input: RequestInfo | URL, init: RequestInit =
         if (csrfToken) {
             headers.set('X-CSRFToken', csrfToken);
         }
-        if (!headers.has('Content-Type')) {
+        if (!headers.has('Content-Type') && !(init.body instanceof FormData)) {
             headers.set('Content-Type', 'application/json');
         }
     }
