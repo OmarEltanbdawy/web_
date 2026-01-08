@@ -21,7 +21,7 @@ from accounts.serializers import ProfileUpdate, user_to_profile_payload
 class SignupView(FormView):
     template_name = 'registration/signup.html'
     form_class = SignupForm
-    success_url = reverse_lazy('accounts:profile')
+    success_url = '/#/profile'
 
     def form_valid(self, form: SignupForm):
         user = form.save()

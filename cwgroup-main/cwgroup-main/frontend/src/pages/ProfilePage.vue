@@ -46,7 +46,7 @@
                         </div>
                     </div>
                     <div class="d-flex align-items-center gap-3 mt-4">
-                        <button class="btn btn-primary" type="submit" :disabled="authStore.status === 'loading'">
+                        <button class="btn btn-primary" type="submit" :disabled="isSaving">
                             Save Changes
                         </button>
                         <span v-if="saveMessage" class="text-success">{{ saveMessage }}</span>
@@ -59,12 +59,13 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, reactive, ref, watch } from 'vue';
+import { computed, onMounted, reactive, ref, watch } from 'vue';
 import { useAuthStore } from '../stores/auth';
 
 const authStore = useAuthStore();
 const imagePreview = ref<string | null>(null);
 const saveMessage = ref('');
+const isSaving = computed(() => authStore.status === 'loading');
 const form = reactive({
     username: '',
     email: '',
