@@ -13,7 +13,6 @@ type WindowWithAuth = Window & { __AUTH_CONTEXT__?: AuthContext };
 const mountApp = () => {
     const app = createApp(App);
     app.use(pinia);
-    app.use(router);
 
     const authStore = useAuthStore(pinia);
     const authContext = (window as WindowWithAuth).__AUTH_CONTEXT__;
@@ -23,6 +22,7 @@ const mountApp = () => {
         authStore.bootstrap({ isAuthenticated: false, user: null });
     }
 
+    app.use(router);
     app.mount('#app');
 };
 
