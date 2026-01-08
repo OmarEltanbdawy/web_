@@ -6,14 +6,9 @@
     <link rel="icon" type="image/svg+xml" href="/static/api/spa/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ECS639 Web Programming - Group CW Template</title>
+    {{ auth_context|json_script:"auth-context" }}
     <script>
-        window.__AUTH_CONTEXT__ = {
-            isAuthenticated: {{ request.user.is_authenticated|yesno:"true,false" }},
-            user: {% if request.user.is_authenticated %}{
-                id: {{ request.user.id }},
-                username: "{{ request.user.get_username|escapejs }}"
-            }{% else %}null{% endif %}
-        };
+        window.__AUTH_CONTEXT__ = JSON.parse(document.getElementById('auth-context').textContent);
         window.dispatchEvent(new Event('django-auth-ready'));
     </script>
   <script type="module" crossorigin src="/static/api/spa/assets/index-DbBstqHX.js"></script>
