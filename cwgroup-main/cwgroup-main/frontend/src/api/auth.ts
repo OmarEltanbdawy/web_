@@ -22,12 +22,12 @@ const mapUserProfile = (profile: ApiUserProfile): UserProfile => ({
 });
 
 export const getProfile = async () => {
-    const profile = await fetchJson<ApiUserProfile>('/api/profile/');
+    const profile = await fetchJson<ApiUserProfile>('/accounts/profile/');
     return mapUserProfile(profile);
 };
 
 export const updateProfile = async (payload: FormData) => {
-    const profile = await fetchJson<ApiUserProfile>('/api/profile/update/', {
+    const profile = await fetchJson<ApiUserProfile>('/accounts/profile/update/', {
         method: 'PATCH',
         body: payload,
     });

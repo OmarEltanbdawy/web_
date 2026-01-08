@@ -113,21 +113,21 @@ const mapItemDetail = (item: ApiItemDetail): ItemDetail => ({
 
 export const getItems = async (query?: string): Promise<ItemListResponse> => {
     const params = query ? `?q=${encodeURIComponent(query)}` : '';
-    const response = await fetchJson<ApiItemListResponse>(`/api/items/${params}`);
+    const response = await fetchJson<ApiItemListResponse>(`/auctions/items/${params}`);
     return {
         items: response.items.map(mapItemSummary),
     };
 };
 
 export const getItem = async (itemId: number): Promise<ItemDetailResponse> => {
-    const response = await fetchJson<ApiItemDetail>(`/api/items/${itemId}/`);
+    const response = await fetchJson<ApiItemDetail>(`/auctions/items/${itemId}/`);
     return {
         item: mapItemDetail(response),
     };
 };
 
 export const createItem = (payload: CreateItemPayload) =>
-    fetchJson<{ id: number }>('/api/items/create/', {
+    fetchJson<{ id: number }>('/auctions/items/create/', {
         method: 'POST',
         body: JSON.stringify({
             owner_id: payload.ownerId,
@@ -139,7 +139,7 @@ export const createItem = (payload: CreateItemPayload) =>
     });
 
 export const placeBid = (itemId: number, payload: { bidderId: number; amount: number }) =>
-    fetchJson<{ id: number }>(`/api/items/${itemId}/bids/`, {
+    fetchJson<{ id: number }>(`/auctions/items/${itemId}/bids/`, {
         method: 'POST',
         body: JSON.stringify({
             bidder_id: payload.bidderId,
@@ -148,7 +148,7 @@ export const placeBid = (itemId: number, payload: { bidderId: number; amount: nu
     });
 
 export const postQuestion = (itemId: number, payload: { askerId: number; text: string }) =>
-    fetchJson<{ id: number }>(`/api/items/${itemId}/questions/`, {
+    fetchJson<{ id: number }>(`/auctions/items/${itemId}/questions/`, {
         method: 'POST',
         body: JSON.stringify({
             asker_id: payload.askerId,
@@ -157,7 +157,7 @@ export const postQuestion = (itemId: number, payload: { askerId: number; text: s
     });
 
 export const postAnswer = (questionId: number, payload: { responderId: number; text: string }) =>
-    fetchJson<{ id: number }>(`/api/questions/${questionId}/answers/`, {
+    fetchJson<{ id: number }>(`/auctions/questions/${questionId}/answers/`, {
         method: 'POST',
         body: JSON.stringify({
             responder_id: payload.responderId,
