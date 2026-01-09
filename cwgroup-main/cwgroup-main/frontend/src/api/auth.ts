@@ -1,7 +1,7 @@
 import { fetchJson } from './client';
 import type { UserProfile } from '../types';
 
-interface ApiUserProfile {
+export interface ApiUserProfile {
     id: number;
     username: string;
     email: string;
@@ -11,7 +11,7 @@ interface ApiUserProfile {
     profile_image_url: string | null;
 }
 
-const mapUserProfile = (profile: ApiUserProfile): UserProfile => ({
+export const mapUserProfile = (profile: ApiUserProfile): UserProfile => ({
     id: profile.id,
     username: profile.username,
     email: profile.email,

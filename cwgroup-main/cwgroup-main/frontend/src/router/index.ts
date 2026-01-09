@@ -17,9 +17,12 @@ const router = createRouter({
     ],
 });
 
-router.beforeEach((to) => {
+router.beforeEach(async (to) => {
     if (to.meta.requiresAuth) {
         const authStore = useAuthStore(pinia);
+        if (!authStore.isAuthenticated) {
+            await authStore.fetchProfile();
+        }
         if (!authStore.isAuthenticated) {
             const nextPath = `/#${to.fullPath}`;
             window.location.assign(`/accounts/login/?next=${encodeURIComponent(nextPath)}`);

@@ -6,7 +6,6 @@ from typing import Any, Dict, Optional
 
 from django.contrib.auth import login
 from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView, LogoutView
 from django.http import HttpRequest, JsonResponse
 from django.shortcuts import redirect
@@ -38,9 +37,10 @@ class UserLogoutView(LogoutView):
     template_name = 'registration/logged_out.html'
 
 
-@login_required
 @require_http_methods(["GET"])
 def profile_detail(request: HttpRequest) -> JsonResponse:
+    if not request.user.is_authenticated:
+        return JsonResponse({'detail': 'Authentication required.'}, status=401)
     payload = user_to_profile_payload(request.user)
     return JsonResponse(payload)
 
@@ -58,9 +58,10 @@ def _parse_profile_update(data: Dict[str, Any]) -> ProfileUpdate:
     )
 
 
-@login_required
 @require_http_methods(["PUT", "PATCH"])
 def profile_update(request: HttpRequest) -> JsonResponse:
+    if not request.user.is_authenticated:
+        return JsonResponse({'detail': 'Authentication required.'}, status=401)
     payload: Dict[str, Any]
     if request.content_type and request.content_type.startswith('multipart/form-data'):
         payload = request.POST.dict()
