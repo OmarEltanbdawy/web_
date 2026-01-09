@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { AuthRequiredError } from '../api/client';
-import { getProfile, updateProfile } from '../api/auth';
+import { type ApiUserProfile, getProfile, mapUserProfile, updateProfile } from '../api/auth';
 import type { AuthContext, UserProfile } from '../types';
 
 export const useAuthStore = defineStore('auth', {
@@ -13,7 +13,7 @@ export const useAuthStore = defineStore('auth', {
     actions: {
         bootstrap(context?: AuthContext) {
             if (context) {
-                this.user = context.user;
+                this.user = context.user ? mapUserProfile(context.user as ApiUserProfile) : null;
                 this.isAuthenticated = context.isAuthenticated;
             }
             this.status = 'ready';
