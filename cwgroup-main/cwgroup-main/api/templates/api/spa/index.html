@@ -8,7 +8,19 @@
     <title>ECS639 Web Programming - Group CW Template</title>
     {{ auth_context|json_script:"auth-context" }}
     <script>
-        window.__AUTH_CONTEXT__ = JSON.parse(document.getElementById('auth-context').textContent);
+        const authContext = JSON.parse(document.getElementById('auth-context').textContent);
+        if (authContext?.user) {
+            authContext.user = {
+                id: authContext.user.id,
+                username: authContext.user.username,
+                email: authContext.user.email,
+                firstName: authContext.user.first_name,
+                lastName: authContext.user.last_name,
+                dateOfBirth: authContext.user.date_of_birth,
+                profileImageUrl: authContext.user.profile_image_url,
+            };
+        }
+        window.__AUTH_CONTEXT__ = authContext;
         window.dispatchEvent(new Event('django-auth-ready'));
     </script>
   <script type="module" crossorigin src="/static/api/spa/assets/index-DbBstqHX.js"></script>
