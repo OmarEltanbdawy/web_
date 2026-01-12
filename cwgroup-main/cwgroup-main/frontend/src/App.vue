@@ -32,6 +32,14 @@
                 >
                     Profile
                 </a>
+                <button
+                    v-if="authStore.isAuthenticated"
+                    class="btn btn-link text-decoration-none p-0"
+                    type="button"
+                    @click="handleLogout"
+                >
+                    Logout
+                </button>
             </nav>
         </header>
         <RouterView />
@@ -44,4 +52,7 @@ import { useAuthStore } from './stores/auth';
 
 const authStore = useAuthStore();
 const loginUrl = (path: string) => `/accounts/login/?next=${encodeURIComponent(`/#${path}`)}`;
+const handleLogout = async () => {
+    await authStore.logout();
+};
 </script>

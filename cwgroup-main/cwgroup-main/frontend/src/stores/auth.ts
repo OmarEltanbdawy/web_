@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { AuthRequiredError } from '../api/client';
+import { AuthRequiredError, fetchJson } from '../api/client';
 import { type ApiUserProfile, getProfile, mapUserProfile, updateProfile } from '../api/auth';
 import type { AuthContext, UserProfile } from '../types';
 
@@ -49,6 +49,19 @@ export const useAuthStore = defineStore('auth', {
                 this.status = 'error';
                 this.errorMessage = error instanceof Error ? error.message : 'Unable to update profile.';
                 return null;
+            }
+        },
+        async logout() {
+            this.status = 'loading';
+            this.errorMessage = null;
+            try {
+                await fetchJson('/accounts/logout/api/', { method: 'POST' });
+            } catch (error) {
+                this.errorMessage = error instanceof Error ? error.message : 'Unable to log out.';
+            } finally {
+                this.user = null;
+                this.isAuthenticated = false;
+                this.status = 'ready';
             }
         },
     },
