@@ -14,6 +14,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 from .models import Answer, Bid, Item, Question
 from .services import is_auction_ended, select_winning_bid, validate_bid
+from .tasks import notify_winner_for_item
 
 User = get_user_model()
 
@@ -102,6 +103,8 @@ def item_detail(request: HttpRequest, item_id: int) -> JsonResponse:
         return _json_error('GET required.', status=405)
 
     item = get_object_or_404(Item, pk=item_id)
+    if item.winner_notified_at is None and is_auction_ended(item):
+        notify_winner_for_item(item.id)
     winning_bid = select_winning_bid(item)
     data = {
         'id': item.id,
