@@ -71,6 +71,31 @@ To run this project in your development machine, follow these steps:
 
 9. Open your browser and go to http://localhost:5173, you will be greeted with a template page.
 
+## Auction winner emails (cron job)
+
+Auction winner notifications are sent by a cron job that runs the Django
+management command below. Configure the email settings with a temporary Gmail
+account and an app password before running the command.
+
+```console
+$ export EMAIL_HOST_USER="your-temporary-group@gmail.com"
+$ export EMAIL_HOST_PASSWORD="your-gmail-app-password"
+$ export DEFAULT_FROM_EMAIL="your-temporary-group@gmail.com"
+```
+
+Then add a cron entry on your host (runs every minute as an example):
+
+```console
+$ crontab -e
+* * * * * /path/to/venv/bin/python /path/to/project/manage.py process_ended_auctions >> /var/log/auction_emails.log 2>&1
+```
+
+You can also run the command manually to test:
+
+```console
+$ python manage.py process_ended_auctions
+```
+
 ## OpenShift deployment
 
 Once your project is ready to be deployed you will need to 'build' the Vue app and place it in Django's static folder.

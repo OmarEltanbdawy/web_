@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 from typing import List
 
 from django.conf import settings
@@ -10,6 +11,8 @@ from django.utils import timezone
 from .models import Item
 from .services import select_winning_bid
 
+logger = logging.getLogger(__name__)
+
 
 def _mark_winner_notified(item: Item, now: timezone.datetime) -> None:
     item.winner_notified_at = now
@@ -17,6 +20,12 @@ def _mark_winner_notified(item: Item, now: timezone.datetime) -> None:
 
 
 def _send_winner_email(item: Item) -> None:
+    if not settings.EMAIL_HOST_USER or not settings.EMAIL_HOST_PASSWORD:
+        logger.warning(
+            "Email host credentials are not configured. "
+            "Set EMAIL_HOST_USER and EMAIL_HOST_PASSWORD to send winner emails."
+        )
+        return
     winning_bid = select_winning_bid(item)
     if winning_bid is None:
         return
@@ -30,7 +39,7 @@ def _send_winner_email(item: Item) -> None:
     send_mail(
         subject=subject,
         message=message,
-        from_email=settings.EMAIL_HOST_USER,
+        from_email=settings.DEFAULT_FROM_EMAIL or settings.EMAIL_HOST_USER,
         recipient_list=[winner.email],
         fail_silently=False,
     )
