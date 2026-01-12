@@ -11,6 +11,52 @@ from .models import Item
 from .services import select_winning_bid
 
 
+def _mark_winner_notified(item: Item, now: timezone.datetime) -> None:
+    item.winner_notified_at = now
+    item.save(update_fields=['winner_notified_at'])
+
+
+def _send_winner_email(item: Item) -> None:
+    winning_bid = select_winning_bid(item)
+    if winning_bid is None:
+        return
+
+    winner = winning_bid.bidder
+    subject = f"You won the auction for {item.title}"
+    message = (
+        f"Congratulations! You won the auction for '{item.title}' "
+        f"with a bid of {winning_bid.amount}."
+    )
+    send_mail(
+        subject=subject,
+        message=message,
+        from_email=settings.EMAIL_HOST_USER,
+        recipient_list=[winner.email],
+        fail_silently=False,
+    )
+
+
+def notify_winner_for_item(item_id: int) -> bool:
+    now = timezone.now()
+    with transaction.atomic():
+        item = (
+            Item.objects.select_related('owner')
+            .select_for_update()
+            .filter(pk=item_id)
+            .first()
+        )
+        if item is None or item.winner_notified_at or item.end_time > now:
+            return False
+
+        if select_winning_bid(item) is None:
+            _mark_winner_notified(item, now)
+            return False
+
+        _send_winner_email(item)
+        _mark_winner_notified(item, now)
+        return True
+
+
 def notify_winners_for_ended_auctions() -> List[int]:
     now = timezone.now()
     items = Item.objects.select_related('owner').filter(
@@ -20,30 +66,22 @@ def notify_winners_for_ended_auctions() -> List[int]:
     notified_ids: List[int] = []
 
     for item in items:
-        winning_bid = select_winning_bid(item)
-        if winning_bid is None:
-            item.winner_notified_at = now
-            item.save(update_fields=['winner_notified_at'])
-            continue
-
-        winner = winning_bid.bidder
-        subject = f"You won the auction for {item.title}"
-        message = (
-            f"Congratulations! You won the auction for '{item.title}' "
-            f"with a bid of {winning_bid.amount}."
-        )
-        recipient_list = [winner.email]
-
         with transaction.atomic():
-            send_mail(
-                subject=subject,
-                message=message,
-                from_email=settings.EMAIL_HOST_USER,
-                recipient_list=recipient_list,
-                fail_silently=False,
+            locked_item = (
+                Item.objects.select_related('owner')
+                .select_for_update()
+                .filter(pk=item.id, winner_notified_at__isnull=True)
+                .first()
             )
-            item.winner_notified_at = now
-            item.save(update_fields=['winner_notified_at'])
-            notified_ids.append(item.id)
+            if locked_item is None:
+                continue
+
+            if select_winning_bid(locked_item) is None:
+                _mark_winner_notified(locked_item, now)
+                continue
+
+            _send_winner_email(locked_item)
+            _mark_winner_notified(locked_item, now)
+            notified_ids.append(locked_item.id)
 
     return notified_ids
