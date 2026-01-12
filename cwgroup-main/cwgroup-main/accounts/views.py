@@ -4,12 +4,13 @@ import json
 from datetime import date
 from typing import Any, Dict, Optional
 
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.views import LoginView, LogoutView
 from django.http import HttpRequest, JsonResponse
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
+from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 from django.views.generic import FormView
 
@@ -35,6 +36,13 @@ class UserLoginView(LoginView):
 
 class UserLogoutView(LogoutView):
     template_name = 'registration/logged_out.html'
+
+
+@csrf_exempt
+@require_http_methods(["POST"])
+def logout_api(request: HttpRequest) -> JsonResponse:
+    logout(request)
+    return JsonResponse({'detail': 'Logged out.'})
 
 
 @require_http_methods(["GET"])
