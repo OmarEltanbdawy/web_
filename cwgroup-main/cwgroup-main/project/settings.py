@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'accounts',
     'api',
-    'auctions',
+    'auctions.apps.AuctionsConfig',
 ]
 
 MIDDLEWARE = [
@@ -148,6 +148,5 @@ EMAIL_HOST_USER = 'omx.elta@gmail.com'
 EMAIL_HOST_PASSWORD = 'nbqj zfpv mecx wlyq'
 EMAIL_USE_TLS = 'true'
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER 
-
 
 
