@@ -32,6 +32,13 @@
                 >
                     Profile
                 </a>
+                <a
+                    v-if="authStore.isAuthenticated"
+                    class="text-decoration-none"
+                    :href="logoutUrl()"
+                >
+                    Logout
+                </a>
             </nav>
         </header>
         <RouterView />
@@ -44,4 +51,5 @@ import { useAuthStore } from './stores/auth';
 
 const authStore = useAuthStore();
 const loginUrl = (path: string) => `/accounts/login/?next=${encodeURIComponent(`/#${path}`)}`;
+const logoutUrl = () => `/accounts/logout/?next=${encodeURIComponent('/#/')}`;
 </script>
