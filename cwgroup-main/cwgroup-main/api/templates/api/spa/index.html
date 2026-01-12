@@ -1,34 +1,17 @@
 <!doctype html>
 <html lang="en">
-
-<head>
+  <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/static/api/spa/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ECS639 Web Programming - Group CW Template</title>
-    {{ auth_context|json_script:"auth-context" }}
+    <title>Vite + d + TS</title>
     <script>
-        const authContext = JSON.parse(document.getElementById('auth-context').textContent);
-        if (authContext?.user) {
-            authContext.user = {
-                id: authContext.user.id,
-                username: authContext.user.username,
-                email: authContext.user.email,
-                firstName: authContext.user.first_name,
-                lastName: authContext.user.last_name,
-                dateOfBirth: authContext.user.date_of_birth,
-                profileImageUrl: authContext.user.profile_image_url,
-            };
-        }
-        window.__AUTH_CONTEXT__ = authContext;
-        window.dispatchEvent(new Event('django-auth-ready'));
+      window.__AUTH_CONTEXT__ = { isAuthenticated: false, user: null };
     </script>
-  <script type="module" crossorigin src="/static/api/spa/assets/index-DbBstqHX.js"></script>
-  <link rel="stylesheet" crossorigin href="/static/api/spa/assets/index-C11chwFa.css">
-</head>
-
-<body>
-    <div id="app"></div>
-</body>
-
+    <script type="module" crossorigin src="/static/api/spa/assets/index-zYvcivV5.js"></script>
+    <link rel="stylesheet" crossorigin href="/static/api/spa/assets/index-DBkz-poX.css">
+  </head>
+  <body>
+    <div id="app"></div>
+  </body>
 </html>

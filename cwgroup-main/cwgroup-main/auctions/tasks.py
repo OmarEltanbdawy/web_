@@ -38,7 +38,7 @@ def notify_winners_for_ended_auctions() -> List[int]:
             send_mail(
                 subject=subject,
                 message=message,
-                from_email=settings.DEFAULT_FROM_EMAIL,
+                from_email=settings.EMAIL_HOST_USER,
                 recipient_list=recipient_list,
                 fail_silently=False,
             )

@@ -10,7 +10,7 @@
                 <h2 class="h5">{{ auctionStore.selectedItem.title }}</h2>
                 <p class="text-muted">{{ auctionStore.selectedItem.description }}</p>
                 <p class="mb-1">
-                    Current price: ${{ currentPrice.toFixed(2) }}
+                    Current price: £{{ currentPrice.toFixed(2) }}
                     <span v-if="auctionStore.selectedItem.hasEnded" class="badge bg-secondary ms-2">Ended</span>
                 </p>
                 <p class="mb-0">Ends at: {{ formatDate(auctionStore.selectedItem.endTime) }}</p>
@@ -23,11 +23,11 @@
                     <div class="card-body">
                         <h3 class="h6">Place a Bid</h3>
                         <p class="text-muted small mb-2">
-                            Minimum bid: ${{ minimumBid.toFixed(2) }}
+                            Minimum bid: £{{ minimumBid.toFixed(2) }}
                         </p>
                         <form @submit.prevent="submitBid">
                             <div class="input-group mb-2">
-                                <span class="input-group-text">$</span>
+                                <span class="input-group-text">£</span>
                                 <input
                                     v-model.number="bidAmount"
                                     class="form-control"
@@ -58,7 +58,7 @@
                                 class="list-group-item d-flex justify-content-between"
                             >
                                 <span>User #{{ bid.bidderId }}</span>
-                                <span>${{ bid.amount.toFixed(2) }}</span>
+                                <span>£{{ bid.amount.toFixed(2) }}</span>
                             </li>
                         </ul>
                     </div>
@@ -153,7 +153,7 @@ const bidError = computed(() => {
         return '';
     }
     if (bidAmount.value <= minimumBid.value) {
-        return `Bid must be higher than $${minimumBid.value.toFixed(2)}.`;
+        return `Bid must be higher than £${minimumBid.value.toFixed(2)}.`;
     }
     return '';
 });

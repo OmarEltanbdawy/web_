@@ -25,7 +25,7 @@
                     <div>
                         <h3 class="h6 mb-1">{{ item.title }}</h3>
                         <p class="mb-0 text-muted">
-                            Starting price: ${{ item.startingPrice.toFixed(2) }}
+                            Starting price: £{{ item.startingPrice.toFixed(2) }}
                             <span v-if="item.hasEnded" class="badge bg-secondary ms-2">Ended</span>
                         </p>
                     </div>
