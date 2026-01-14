@@ -3,6 +3,7 @@ from __future__ import annotations
 from django.conf import settings
 from django.db import models
 from django.utils import timezone
+from django.db.models import Q
 
 
 class Item(models.Model):
@@ -43,8 +44,8 @@ class Bid(models.Model):
         ordering = ['-amount', 'created_at']
         constraints = [
             models.CheckConstraint(
-                check=models.Q(amount__gt=0),
-                name='bid_amount_positive',
+                condition=Q(amount__gt=0),
+                name="bid_amount_positive",
             ),
         ]
 

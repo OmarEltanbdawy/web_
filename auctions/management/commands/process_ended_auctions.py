@@ -8,7 +8,7 @@ from auctions.tasks import notify_winners_for_ended_auctions
 
 
 class Command(BaseCommand):
-    help = 'Detect ended auctions and send winner emails.'
+    help = 'detect when an auction has ended and notify'
 
     def handle(self, *args: Any, **options: Any) -> None:
         notified = notify_winners_for_ended_auctions()

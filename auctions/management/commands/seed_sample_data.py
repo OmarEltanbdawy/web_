@@ -11,7 +11,7 @@ from auctions.models import Item
 
 
 class Command(BaseCommand):
-    help = 'Create an admin user, five test users, and ten sample auction items.'
+    help = 'creating admin user, five test users, and ten sample auction items.'
 
     def handle(self, *args, **options) -> None:
         admin_user = self._create_admin_user()
@@ -20,7 +20,7 @@ class Command(BaseCommand):
 
         self.stdout.write(
             self.style.SUCCESS(
-                'Sample data created. Admin user: ' f'{admin_user.username}'
+                'sample data created. Admin user: ' f'{admin_user.username}'
             )
         )
 
@@ -71,62 +71,62 @@ class Command(BaseCommand):
     def _create_sample_items(self, test_users) -> None:
         sample_items = [
             {
-                'title': 'Vintage Camera',
-                'description': '35mm film camera with a leather case.',
+                'title': 'Camera',
+                'description': 'film camera',
                 'starting_price': Decimal('45.00'),
                 'end_time': timezone.now() + timedelta(days=7),
             },
             {
-                'title': 'Mechanical Keyboard',
-                'description': 'RGB backlit keyboard with tactile switches.',
+                'title': 'Keyboard',
+                'description': 'RGB backlit keyboard',
                 'starting_price': Decimal('60.00'),
                 'end_time': timezone.now() + timedelta(days=6),
             },
             {
-                'title': 'Mountain Bike Helmet',
-                'description': 'Lightweight helmet with adjustable straps.',
+                'title': 'Bike',
+                'description': 'nice bike',
                 'starting_price': Decimal('30.00'),
                 'end_time': timezone.now() + timedelta(days=5),
             },
             {
-                'title': 'Smart Home Hub',
-                'description': 'Voice-controlled hub with smart device integration.',
+                'title': 'phone',
+                'description': 'beautiful ',
                 'starting_price': Decimal('50.00'),
                 'end_time': timezone.now() + timedelta(days=4),
             },
             {
-                'title': 'Bluetooth Speaker',
-                'description': 'Portable speaker with 12-hour battery life.',
+                'title': 'speaker',
+                'description': 'portable ',
                 'starting_price': Decimal('35.00'),
                 'end_time': timezone.now() + timedelta(days=8),
             },
             {
-                'title': 'Coffee Grinder',
-                'description': 'Burr grinder with 12 grind settings.',
+                'title': 'Coffee machine',
+                'description': 'tasty cofee',
                 'starting_price': Decimal('40.00'),
                 'end_time': timezone.now() + timedelta(days=9),
             },
             {
-                'title': 'Yoga Mat',
-                'description': 'Non-slip mat with carrying strap.',
+                'title': 'dumbells',
+                'description': 'very nice',
                 'starting_price': Decimal('20.00'),
                 'end_time': timezone.now() + timedelta(days=3),
             },
             {
-                'title': 'Wireless Earbuds',
-                'description': 'Noise-isolating earbuds with charging case.',
+                'title': 'earbuds',
+                'description': 'Noise cancelling',
                 'starting_price': Decimal('55.00'),
                 'end_time': timezone.now() + timedelta(days=10),
             },
             {
                 'title': 'LED Desk Lamp',
-                'description': 'Adjustable lamp with USB charging port.',
+                'description': 'convinient',
                 'starting_price': Decimal('25.00'),
                 'end_time': timezone.now() + timedelta(days=2),
             },
             {
-                'title': 'Cookware Set',
-                'description': 'Stainless steel 5-piece cookware set.',
+                'title': 'pan',
+                'description': 'stainless stell',
                 'starting_price': Decimal('70.00'),
                 'end_time': timezone.now() + timedelta(days=11),
             },
