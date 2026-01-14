@@ -20,8 +20,8 @@ def _mark_winner_notified(item: Item, now: timezone.datetime) -> None:
 def _send_winner_email(item: Item) -> bool:
     if not settings.EMAIL_HOST_USER or not settings.EMAIL_HOST_PASSWORD:
         logger.warning(
-            "Email host credentials are not configured. "
-            "Set EMAIL_HOST_USER and EMAIL_HOST_PASSWORD to send winner emails."
+            "email is not set"
+            "set the email or password properly"
         )
         return False
     winning_bid = select_winning_bid(item)
